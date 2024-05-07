@@ -1,0 +1,54 @@
+buildscript {
+    apply from: gradle.extended.files.modules
+    apply from: "gradle/versions.gradle"
+
+    dependencies {
+        classpath additionals.sonarqube.gradlePlugin
+        classpath additionals.nexus.gradlePlugin
+        classpath additionals.license.gradlePlugin
+    }
+}
+
+plugins {
+    alias(additionals.plugins.publish.nexus)
+    alias(additionals.plugins.android.library) apply false
+    alias(additionals.plugins.kotlin.multiplatform) apply false
+    alias(additionals.plugins.kotlin.jvm) apply false
+    alias(additionals.plugins.jetbrains.compose) apply false
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+group = rootProject.ext.group
+version = rootProject.ext.version
+
+def getExtraString = {String name ->
+    if (rootProject.ext.has(name)) return rootProject.ext[name]?.toString()
+    else return null
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username = getExtraString("sonatypeUsername") ?: ""
+            password = getExtraString("sonatypePassword") ?: ""
+        }
+    }
+}
+
+subprojects {
+    group = rootProject.ext.group
+    version = rootProject.ext.version
+
+    task allDeps(type: DependencyReportTask) {}
+
+    if (isSourcesModule(it)) {
+        apply from: gradle.extended.files.moduleSetup
+    }
+}

@@ -1,0 +1,6 @@
+[versions]
+androidx-appcompat = "1.6.1"
+moko-permissions = "0.16.0"
+
+[libraries]
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko-permissions" }

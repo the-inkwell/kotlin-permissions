@@ -1,0 +1,37 @@
+**/*.exec
+**/*.ec
+
+*.iml
+.gradle
+/local.properties
+.idea/*
+!.idea/fileTemplates/
+!.idea/codeStyles/
+!.idea/runConfigurations/
+.DS_Store
+/build
+/captures
+
+/gradle/extended
+
+**/build
+
+.cxx/*
+
+tmp/
+
+# VS Code files, ignoring those as they could probably be in conflict with AS
+.project
+.classpath
+.settings
+
+# licenses
+
+**/assets/*.csv
+!**/androidTest/assets/**
+**/assets/*.json
+
+**/Pods
+**/xcuserdata/
+
+repository/
