@@ -21,6 +21,7 @@ fun state(state: dev.icerock.moko.permissions.PermissionState): PermissionState 
         InternalPermissionState.Granted -> PermissionState.Granted
         InternalPermissionState.Denied -> PermissionState.Denied
         InternalPermissionState.DeniedAlways -> PermissionState.DeniedAlways
+        InternalPermissionState.NotGranted -> PermissionState.NotGranted
     }
 }
 

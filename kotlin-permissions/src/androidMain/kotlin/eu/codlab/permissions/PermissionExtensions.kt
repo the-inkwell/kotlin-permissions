@@ -24,6 +24,9 @@ internal fun InternalPermission.toPlatformPermission(): List<String> {
         InternalPermission.BLUETOOTH_SCAN -> bluetoothScanCompat()
         InternalPermission.BLUETOOTH_ADVERTISE -> bluetoothAdvertiseCompat()
         InternalPermission.BLUETOOTH_CONNECT -> bluetoothConnectCompat()
+        dev.icerock.moko.permissions.Permission.BACKGROUND_LOCATION -> TODO()
+        dev.icerock.moko.permissions.Permission.CONTACTS -> TODO()
+        dev.icerock.moko.permissions.Permission.MOTION -> TODO()
     }
 }
 
@@ -45,6 +48,7 @@ internal fun state(state: dev.icerock.moko.permissions.PermissionState): Permiss
         InternalPermissionState.Granted -> PermissionState.Granted
         InternalPermissionState.Denied -> PermissionState.Denied
         InternalPermissionState.DeniedAlways -> PermissionState.DeniedAlways
+        dev.icerock.moko.permissions.PermissionState.NotGranted -> TODO()
     }
 }
 

@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * *
  * Default project info
  * * * * * * * * * * * * * * * * */
-def defaultVersion = "1.14.2"
+def defaultVersion = "1.17.0-alpha0"
 def defaultGroup = "eu.codlab"
 
 def propSuffix = { prefix, suffixKeyName ->
@@ -9,12 +9,26 @@ def propSuffix = { prefix, suffixKeyName ->
             ? "${prefix}-${rootProject.properties[suffixKeyName]}" : prefix
 }
 
+def repo = "the-inkwell/kotlin-permissions"
+
 ext {
     prop = { name, defValue ->
         return rootProject.properties.containsKey(name)
                 ? rootProject.properties[name] : defValue
     }
 
+    pomDescription = "Kotlin Multiplatform Permissions"
+    pomInceptionYear = "${new Date().format("YYYY")}"
+    pomUrl = "https://github.com/$repo"
+    pomLicenseName = "MIT License"
+    pomLicenseUrl = "https://github.com/$repo/blob/main/LICENSE"
+    pomLicenseDistribution = ""
+    pomDeveloperId = "codlab"
+    pomDeveloperName = "Kevin Le Perf"
+    pomDeveloperOrganization = "Codlabtech"
+    pomDeveloperOrganizationUrl = "https://codlab.eu"
+    pomScmUrl = "scm:git:github.com/${repo}.git"
+    
     sonarUrl = prop("sonarUrl", null)
     sonarToken = prop("sonarToken", null)
 

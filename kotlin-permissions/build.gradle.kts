@@ -40,6 +40,7 @@ kotlin {
             dependencies {
                 implementation(libs.moko.permissions)
                 implementation(additionals.androidx.appcompat)
+                implementation(additionals.kotlinx.coroutines.android)
             }
         }
         val androidUnitTest by getting
@@ -60,7 +61,7 @@ kotlin {
         val jvmMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation(additionals.kotlinx.coroutines.android)
+                implementation(additionals.kotlinx.coroutines.jvm)
             }
         }
 

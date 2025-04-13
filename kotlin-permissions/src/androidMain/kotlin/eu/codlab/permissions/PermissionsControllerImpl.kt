@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionState
+import kotlin.coroutines.Continuation
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("TooManyFunctions")
@@ -20,25 +21,29 @@ class PermissionsControllerImpl(
     private val activity: FragmentActivity,
     private val applicationContext: Context
 ) {
+    private var continuation: Continuation<Boolean>? = null
+
+    val requestSinglePermission =
+        activity.registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { result -> continuation!!.resumeWith(Result.success(result)) }
+
+    val requestMultiplePermissions = activity.registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { result ->
+        val granted = result.values.all { it }
+        continuation!!.resumeWith(Result.success(granted))
+    }
+
     suspend fun providePermission(permission: Permission) {
         val platformPermissions = permission.toPlatformPermission()
 
-        suspendCoroutine { continuation ->
+        suspendCoroutine { newContinuation ->
+            continuation = newContinuation
             if (platformPermissions.size == 1) {
-                val request =
-                    activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-                        continuation.resumeWith(Result.success(result))
-                    }
-                request.launch(platformPermissions[0])
+                requestSinglePermission.launch(platformPermissions[0])
             } else {
-                val request =
-                    activity.registerForActivityResult(
-                        ActivityResultContracts.RequestMultiplePermissions()
-                    ) { result ->
-                        val granted = result.values.all { it }
-                        continuation.resumeWith(Result.success(granted))
-                    }
-                request.launch(platformPermissions.toTypedArray())
+                requestMultiplePermissions.launch(platformPermissions.toTypedArray())
             }
         }
     }
@@ -107,6 +112,9 @@ class PermissionsControllerImpl(
             Permission.BLUETOOTH_SCAN -> bluetoothScanCompat()
             Permission.BLUETOOTH_ADVERTISE -> bluetoothAdvertiseCompat()
             Permission.BLUETOOTH_CONNECT -> bluetoothConnectCompat()
+            Permission.BACKGROUND_LOCATION -> TODO()
+            Permission.CONTACTS -> TODO()
+            Permission.MOTION -> TODO()
         }
     }
 

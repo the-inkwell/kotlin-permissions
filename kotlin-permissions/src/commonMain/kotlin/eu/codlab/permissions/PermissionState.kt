@@ -4,5 +4,6 @@ enum class PermissionState {
     NotDetermined,
     Granted,
     Denied,
-    DeniedAlways
+    DeniedAlways,
+    NotGranted
 }
