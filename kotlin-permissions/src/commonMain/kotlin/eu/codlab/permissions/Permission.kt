@@ -1,18 +1,25 @@
 package eu.codlab.permissions
 
-enum class Permission {
-    CAMERA,
+/* enum */ class Permission(
+    internal val moko: Any,
+    internal val toPlatformPermissions: List<String>
+) {
+    init {
+        PermissionRegister.register(this)
+    }
 
-    // GALLERY,
-    // STORAGE,
-    WRITE_STORAGE,
+    // CAMERA,
 
-    // LOCATION,
-    // COARSE_LOCATION,
-    // BLUETOOTH_LE,
-    REMOTE_NOTIFICATION,
-    RECORD_AUDIO,
-    BLUETOOTH_SCAN,
-    BLUETOOTH_ADVERTISE,
-    BLUETOOTH_CONNECT
+    // // GALLERY,
+    // // STORAGE,
+    // WRITE_STORAGE,
+
+    // // LOCATION,
+    // // COARSE_LOCATION,
+    // // BLUETOOTH_LE,
+    // REMOTE_NOTIFICATION,
+    // RECORD_AUDIO,
+    // BLUETOOTH_SCAN,
+    // BLUETOOTH_ADVERTISE,
+    // BLUETOOTH_CONNECT
 }

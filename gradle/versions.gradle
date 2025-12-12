@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * *
  * Default project info
  * * * * * * * * * * * * * * * * */
-def defaultVersion = "1.17.0-alpha0"
+def defaultVersion = "1.17.0-alpha3"
 def defaultGroup = "eu.codlab"
 
 def propSuffix = { prefix, suffixKeyName ->
@@ -12,6 +12,7 @@ def propSuffix = { prefix, suffixKeyName ->
 def repo = "the-inkwell/kotlin-permissions"
 
 ext {
+    minSdkVersion = 24
     prop = { name, defValue ->
         return rootProject.properties.containsKey(name)
                 ? rootProject.properties[name] : defValue

@@ -4,15 +4,7 @@ typealias InternalPermission = dev.icerock.moko.permissions.Permission
 typealias InternalPermissionState = dev.icerock.moko.permissions.PermissionState
 
 fun translate(permission: Permission): InternalPermission {
-    return when (permission) {
-        Permission.CAMERA -> InternalPermission.CAMERA
-        Permission.WRITE_STORAGE -> InternalPermission.WRITE_STORAGE
-        Permission.REMOTE_NOTIFICATION -> InternalPermission.REMOTE_NOTIFICATION
-        Permission.RECORD_AUDIO -> InternalPermission.RECORD_AUDIO
-        Permission.BLUETOOTH_SCAN -> InternalPermission.BLUETOOTH_SCAN
-        Permission.BLUETOOTH_ADVERTISE -> InternalPermission.BLUETOOTH_ADVERTISE
-        Permission.BLUETOOTH_CONNECT -> InternalPermission.BLUETOOTH_CONNECT
-    }
+    return permission.moko as InternalPermission
 }
 
 fun state(state: dev.icerock.moko.permissions.PermissionState): PermissionState {

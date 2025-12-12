@@ -1,5 +1,6 @@
 package eu.codlab.permissions
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
@@ -50,12 +51,15 @@ actual class PermissionsController {
     }
 
     private fun isPermissionGrantedSync(permission: dev.icerock.moko.permissions.Permission): Boolean {
-        if (permission == InternalPermission.REMOTE_NOTIFICATION &&
+        val permissions = PermissionRegister.internalPermissionFrom(permission)!!.toPlatformPermissions
+
+        if (permissions.contains(Manifest.permission.POST_NOTIFICATIONS) &&
             Build.VERSION.SDK_INT in VERSIONS_WITHOUT_NOTIFICATION_PERMISSION
         ) {
             return NotificationManagerCompat.from(applicationContext!!).areNotificationsEnabled()
         }
-        return permission.toPlatformPermission().all {
+
+        return permissions.all {
             val status = ContextCompat.checkSelfPermission(applicationContext!!, it)
             status == PackageManager.PERMISSION_GRANTED
         }

@@ -54,7 +54,9 @@ class PermissionsControllerImpl(
 
     @Suppress("ReturnCount")
     suspend fun getPermissionState(permission: Permission): PermissionState {
-        if (permission == Permission.REMOTE_NOTIFICATION &&
+        val perm = PermissionRegister.internalPermissionFrom(permission)!!.toPlatformPermissions
+        //if (permission == Permission.REMOTE_NOTIFICATION &&
+        if (perm.contains(Manifest.permission.POST_NOTIFICATIONS) &&
             Build.VERSION.SDK_INT in VERSIONS_WITHOUT_NOTIFICATION_PERMISSION
         ) {
             val isNotificationsEnabled = NotificationManagerCompat.from(applicationContext)
@@ -92,30 +94,7 @@ class PermissionsControllerImpl(
     }
 
     private fun Permission.toPlatformPermission(): List<String> {
-        return when (this) {
-            Permission.CAMERA -> listOf(Manifest.permission.CAMERA)
-            Permission.GALLERY -> galleryCompat()
-            Permission.STORAGE -> allStoragePermissions()
-            Permission.WRITE_STORAGE -> listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            Permission.LOCATION -> fineLocationCompat()
-            Permission.COARSE_LOCATION -> listOf(Manifest.permission.ACCESS_COARSE_LOCATION)
-            Permission.REMOTE_NOTIFICATION -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    listOf(Manifest.permission.POST_NOTIFICATIONS)
-                } else {
-                    emptyList()
-                }
-            }
-
-            Permission.RECORD_AUDIO -> listOf(Manifest.permission.RECORD_AUDIO)
-            Permission.BLUETOOTH_LE -> allBluetoothPermissions()
-            Permission.BLUETOOTH_SCAN -> bluetoothScanCompat()
-            Permission.BLUETOOTH_ADVERTISE -> bluetoothAdvertiseCompat()
-            Permission.BLUETOOTH_CONNECT -> bluetoothConnectCompat()
-            Permission.BACKGROUND_LOCATION -> TODO()
-            Permission.CONTACTS -> TODO()
-            Permission.MOTION -> TODO()
-        }
+        return PermissionRegister.internalPermissionFrom(this)!!.toPlatformPermissions
     }
 
     /**

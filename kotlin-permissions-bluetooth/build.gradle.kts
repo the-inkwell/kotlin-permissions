@@ -32,15 +32,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(additionals.kotlinx.coroutines)
+                api(project(":kotlin-permissions"))
             }
         }
         val commonTest by getting
         val androidMain by getting {
             dependencies {
-                implementation(libs.moko.permissions)
-                implementation(additionals.androidx.appcompat)
-                implementation(additionals.kotlinx.coroutines.android)
+                implementation(libs.moko.permissions.bluetooth)
             }
         }
         val androidUnitTest by getting
@@ -55,7 +53,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation(libs.moko.permissions)
+                implementation(libs.moko.permissions.bluetooth)
             }
         }
 
@@ -80,5 +78,5 @@ kotlin {
 }
 
 android {
-    namespace = "eu.codlab.permissions"
+    namespace = "eu.codlab.permissions.bluetooth"
 }
