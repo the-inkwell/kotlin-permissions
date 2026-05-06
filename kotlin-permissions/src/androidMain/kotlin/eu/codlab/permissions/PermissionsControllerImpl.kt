@@ -18,21 +18,27 @@ import kotlin.coroutines.suspendCoroutine
 
 @Suppress("TooManyFunctions")
 class PermissionsControllerImpl(
-    private val activity: FragmentActivity,
+    var activity: FragmentActivity,
     private val applicationContext: Context
 ) {
     private var continuation: Continuation<Boolean>? = null
 
+    fun setActivity(newActivity: FragmentActivity): PermissionsControllerImpl {
+        activity = newActivity
+
+        return this
+    }
+
     val requestSinglePermission =
         activity.registerForActivityResult(
             ActivityResultContracts.RequestPermission()
-        ) { result -> continuation!!.resumeWith(Result.success(result)) }
+        ) { result -> continuation?.resumeWith(Result.success(result)) }
 
     val requestMultiplePermissions = activity.registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { result ->
         val granted = result.values.all { it }
-        continuation!!.resumeWith(Result.success(granted))
+        continuation?.resumeWith(Result.success(granted))
     }
 
     suspend fun providePermission(permission: Permission) {

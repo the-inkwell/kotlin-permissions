@@ -24,7 +24,12 @@ actual class PermissionsController {
 
         fun setActivity(activity: FragmentActivity) {
             this.activity = activity
-            permissionController = PermissionsControllerImpl(activity, applicationContext!!)
+
+            permissionController =
+                permissionController?.setActivity(activity) ?: PermissionsControllerImpl(
+                    activity,
+                    applicationContext!!
+                )
         }
 
         private val VERSIONS_WITHOUT_NOTIFICATION_PERMISSION =
@@ -51,7 +56,8 @@ actual class PermissionsController {
     }
 
     private fun isPermissionGrantedSync(permission: dev.icerock.moko.permissions.Permission): Boolean {
-        val permissions = PermissionRegister.internalPermissionFrom(permission)!!.toPlatformPermissions
+        val permissions =
+            PermissionRegister.internalPermissionFrom(permission)!!.toPlatformPermissions
 
         if (permissions.contains(Manifest.permission.POST_NOTIFICATIONS) &&
             Build.VERSION.SDK_INT in VERSIONS_WITHOUT_NOTIFICATION_PERMISSION
