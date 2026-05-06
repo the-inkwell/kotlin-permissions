@@ -7,6 +7,8 @@ plugins {
 }
 
 kotlin {
+    applyDefaultHierarchyTemplate()
+
     androidTarget {
         publishAllLibraryVariants()
     }
@@ -42,36 +44,10 @@ kotlin {
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-
+        val iosMain by getting {
             dependencies {
                 implementation(libs.moko.permissions.notifications)
             }
-        }
-
-        val jsMain by getting
-        val jvmMain by getting
-        val macosX64Main by getting
-        val macosArm64Main by getting
-        val linuxX64Main by getting
-        val linuxArm64Main by getting
-        val mingwX64Main by getting
-        val commonStubMain by creating {
-            dependsOn(commonMain)
-            jsMain.dependsOn(this)
-            jvmMain.dependsOn(this)
-            macosX64Main.dependsOn(this)
-            macosArm64Main.dependsOn(this)
-            linuxX64Main.dependsOn(this)
-            linuxArm64Main.dependsOn(this)
-            mingwX64Main.dependsOn(this)
         }
     }
 }
