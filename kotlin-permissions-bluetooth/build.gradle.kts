@@ -7,6 +7,8 @@ plugins {
 }
 
 kotlin {
+    applyDefaultHierarchyTemplate()
+
     androidTarget {
         publishAllLibraryVariants()
     }
@@ -46,8 +48,7 @@ kotlin {
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
+        val iosMain by getting {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
@@ -66,14 +67,16 @@ kotlin {
         val mingwX64Main by getting
         val commonStubMain by creating {
             dependsOn(commonMain)
-            jsMain.dependsOn(this)
-            jvmMain.dependsOn(this)
-            macosX64Main.dependsOn(this)
-            macosArm64Main.dependsOn(this)
-            linuxX64Main.dependsOn(this)
-            linuxArm64Main.dependsOn(this)
-            mingwX64Main.dependsOn(this)
         }
+
+        listOf(
+            jsMain, jvmMain,
+            macosX64Main,
+            macosArm64Main,
+            linuxX64Main,
+            linuxArm64Main,
+            mingwX64Main
+        ).forEach { it.dependsOn(commonStubMain) }
     }
 }
 
